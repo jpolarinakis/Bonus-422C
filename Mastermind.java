@@ -127,5 +127,63 @@ if(move.equals("HISTORY"))
 }	
 
 }
+/*checks to see if they guessed the correct combination
+ * Outputs true if the combination is correct
+ */
+public boolean moveChecker(String move)
+{
+	//need to check if this move is correct
+	
+	for(int i = 0; i < move.length(); i ++)
+	{
+		String currentLetter = move.substring(i, i + 1);
+		Character currentSecret = this.secretCode.get(i);
+		
+		if(!currentLetter.equals(currentSecret))
+		{
+			return false; //the letters do not match
+		}
+	}
+	return true; //all of the characters matched, so we were able to exit the for loop
+}
+
+public void pegsMove(String move)
+{
+	int whitePegs = 0;
+	int blackPegs = 0;
+	
+	for(int i = 0; i < move.length(); i ++)
+	{
+		String letter = move.substring(i, i+1);
+		ArrayList<Character> secret = this.secretCode;
+		int same = 0;
+		int similar = 0;
+		for(int j = 0; j < secret.size(); j ++)
+		{
+			if(letter.equals(secret.get(j)) && i == j)
+			{
+				same = same+ 1; //they are in the same place 
+			}
+			else if(letter.equals(secret.get(j)))
+			{
+				similar = similar + 1;  //same color in the code, but wrong place
+			}
+			
+		}
+		if(similar > 0)
+		{
+			whitePegs = whitePegs + 1;
+		}
+		if(same > 0)
+		{
+			blackPegs = blackPegs + 1;
+		}
+	
+	}
+	
+	//totalPegs = whitePegs + blackPegs.
+	//output the pegs and the guess?
+	
+}
 
 }//class

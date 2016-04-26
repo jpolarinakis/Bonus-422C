@@ -20,9 +20,15 @@ public class Driver {
 			String move = game.getMove();
 			moves++;
 			//TODO: call movechecking function;
+			//call the move output function : checks how off they are from the input
+			boolean didWin = game.moveChecker(move); //check the current move to see if it matches the right answer
 			//TODO: if win call game ending function with "win" option
+			if(didWin)
+			{
+				//execute win protocols
+			}
 			//TODO still if win, ask the player if they want to play again
-			if(moves == 12)
+			else if(moves == 12)
 			{
 				
 				//TODO: call game ending function, with "lose" option
