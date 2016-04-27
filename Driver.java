@@ -19,20 +19,17 @@ public class Driver {
 			game.generateBoard();
 			String move = game.getMove();
 			moves++;
-			//TODO: call movechecking function;
 			//call the move output function : checks how off they are from the input
 			boolean didWin = game.moveChecker(move); //check the current move to see if it matches the right answer
-			//TODO: if win call game ending function with "win" option
-			if(didWin)
+			if(didWin)			
+				play = game.endGame(true);
+			
+			else if(moves == 12)			
+				play = game.endGame(false);
+			
+			else //the game is not over so we need to generate the pegs
 			{
-				//execute win protocols
-			}
-			//TODO still if win, ask the player if they want to play again
-			else if(moves == 12)
-			{
-				
-				//TODO: call game ending function, with "lose" option
-				//TODO ask the player if they want to play again
+				game.pegsMove(move);
 			}
 		}
 	}

@@ -1,3 +1,4 @@
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -112,6 +113,9 @@ private boolean confirmMove(String move) {
 	}
 	return true;
 }
+/* *
+ * i think this is redundant because we implement this basic sequence in driver
+ * */
 public void play()
 {
 for(int i = attemptsRemain; i != 0; i--)
@@ -138,8 +142,9 @@ public boolean moveChecker(String move)
 	{
 		String currentLetter = move.substring(i, i + 1);
 		Character currentSecret = this.secretCode.get(i);
+		String currentS = Character.toString(currentSecret);
 		
-		if(!currentLetter.equals(currentSecret))
+		if(!currentLetter.equals(currentS))
 		{
 			return false; //the letters do not match
 		}
@@ -183,7 +188,39 @@ public void pegsMove(String move)
 	
 	//totalPegs = whitePegs + blackPegs.
 	//output the pegs and the guess?
-	
+	}
+public boolean endGame(boolean win)
+{
+	boolean ret = false;
+	Object[] options = {"OK"};
+	JFrame frame = new JFrame();	
+
+	if(win)
+	{
+	    int n = JOptionPane.showOptionDialog(frame,
+                "You win!! ","Dank Games Inc.",
+                JOptionPane.PLAIN_MESSAGE,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+	}
+	else{
+	    int n = JOptionPane.showOptionDialog(frame,
+                "You lost :( ","Dank Games Inc.",
+                JOptionPane.PLAIN_MESSAGE,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+		
+	}
+	int result = JOptionPane.showConfirmDialog(null, 
+			   "Great game, let's play another?",null, JOptionPane.YES_NO_OPTION);
+			if(result == JOptionPane.YES_OPTION) {
+			    ret = true;
+			}
+			return ret;
 }
 
 }//class
