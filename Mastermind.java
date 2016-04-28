@@ -33,6 +33,11 @@ public void generateBoard()
 	this.secretCode = new ArrayList<Character>();
 	this.history = new ArrayList<ArrayList<String>>(); 
 	attemptsRemain = 12;
+	for(int i =0; i < 12; i++)
+	{
+		ArrayList<String> toAdd = new ArrayList<String>();
+		history.add(toAdd);
+	}
 	for(int i =0; i < 4; i++)
 	{
 		int color = random.nextInt()%5;
@@ -83,16 +88,25 @@ boolean valid = false;
 
 while (!valid){
 String move = JOptionPane.showInputDialog(frame, message + "What is your move?");
-if(confirmMove(move) == true)
+move = move.toUpperCase();
+if(move.equals("HISTORY"))
+{
+	ret = move;
+	valid = true;
+}
+else if(confirmMove(move) == true)
 {
 ret = move.toUpperCase();
 valid = true;
 }
 }
+if(!ret.equals("HISTORY")){
 history.get(numMoves).add(ret);
 attemptsRemain--;
+}
 return ret;
 }
+
 
 private boolean confirmMove(String move) {
 	move = move.toUpperCase();
@@ -181,6 +195,9 @@ public String pegsMove(String move)
 		}
 	}
 	}
+	String histAdd = bPegs + " black pegs and " + wPegs + " white pegs";
+	history.get(numMoves).add(histAdd);
+	numMoves++;
 	String ret = Integer.toString(bPegs) + " " + Integer.toString(wPegs);
 	return ret;
 	}
