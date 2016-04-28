@@ -14,26 +14,27 @@ public class Mastermind {
 private Random random = new Random();
 private ArrayList<ArrayList<String>> history;
 private ArrayList<Character> secretCode;
-private int attemptsRemain;
+private static int attemptsRemain;
 private final char  orange = 'O'; 
 private final char blue = 'B';
 private final char purple = 'P';
 private final char red = 'R';
 private final char yellow = 'Y';
 private final char green = 'G';
+private final String empty = "Z";
 
 /* *
  * fill the various randomly generated pieces of the game as well as initializes variables
  * for the player
  * */
 public void generateBoard()
-{
+{	
 	this.secretCode = new ArrayList<Character>();
-	history = new ArrayList<ArrayList<String>>(); 
+	this.history = new ArrayList<ArrayList<String>>(); 
 	attemptsRemain = 12;
 	for(int i =0; i < 4; i++)
 	{
-		int color = (int)(Math.random() * 5);//random.nextInt()%5;
+		int color = random.nextInt()%5;
 		switch(color)
 		{
 		case 0:
@@ -54,6 +55,8 @@ public void generateBoard()
 		case 5:
 			secretCode.add(this.green);
 			break;
+		default:
+			secretCode.add(this.green);
 		}
 		
 	}
@@ -72,7 +75,7 @@ public void generateHistory()
 }
 public String getMove()
 {
-String message = "you have " + Integer.toString(attemptsRemain - 1) + " \n";
+String message = "you have " + Integer.toString(attemptsRemain) + " moves remaining" + " \n";
 JFrame frame = new JFrame();	
 String ret = "";
 boolean valid = false;
@@ -85,16 +88,10 @@ ret = move;
 valid = true;
 }
 }
-
+attemptsRemain--;
 return ret;
 }
 
-public int getAttemptsRemain() {
-	return attemptsRemain;
-}
-public void setAttemptsRemain(int attemptsRemain) {
-	this.attemptsRemain = attemptsRemain;
-}
 private boolean confirmMove(String move) {
 	move = move.toUpperCase();
 	if(move.equals("HISTORY"))
@@ -164,7 +161,7 @@ public String pegsMove(String move)
 	int bPegs =0;
 	int wPegs =0;
 	ArrayList<String> s = new ArrayList<String>();
-	for(int i =0; i < this.secretCode.size();i++)
+	for(int i =0; i< this.secretCode.size();i++)
 	{
 		s.add(Character.toString(this.secretCode.get(i)));
 	}
@@ -173,7 +170,7 @@ public String pegsMove(String move)
 	int place = move.indexOf(s.get(i));	
 	if(place != -1)
 	{
-		s.set(i, null);
+		s.set(i, this.empty);
 		if(place == i)
 			bPegs++;
 		else
@@ -185,10 +182,6 @@ public String pegsMove(String move)
 	String ret = Integer.toString(bPegs) + " " + Integer.toString(wPegs);
 	return ret;
 	}
-	
-	//totalPegs = whitePegs + blackPegs.
-	//output the pegs and the guess?
-	
 public boolean endGame(boolean win)
 {
 	boolean ret = false;
