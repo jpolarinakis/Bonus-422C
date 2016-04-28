@@ -11,6 +11,7 @@ public class Mastermind {
 	 * History output:
 	 * "guess" + "peg output"
 	 * */
+int  numMoves;
 private Random random = new Random();
 private ArrayList<ArrayList<String>> history;
 private ArrayList<Character> secretCode;
@@ -28,7 +29,7 @@ private final String empty = "Z";
  * for the player
  * */
 public void generateBoard()
-{	
+{	this.numMoves =0;
 	this.secretCode = new ArrayList<Character>();
 	this.history = new ArrayList<ArrayList<String>>(); 
 	attemptsRemain = 12;
@@ -84,10 +85,11 @@ while (!valid){
 String move = JOptionPane.showInputDialog(frame, message + "What is your move?");
 if(confirmMove(move) == true)
 {
-ret = move;
+ret = move.toUpperCase();
 valid = true;
 }
 }
+history.get(numMoves).add(ret);
 attemptsRemain--;
 return ret;
 }
