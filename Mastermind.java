@@ -28,30 +28,31 @@ private final char green = 'G';
  * */
 public void generateBoard()
 {
+	this.secretCode = new ArrayList<Character>();
 	history = new ArrayList<ArrayList<String>>(); 
 	attemptsRemain = 12;
 	for(int i =0; i < 4; i++)
 	{
-		int color = random.nextInt()%5;
+		int color = (int)(Math.random() * 5);//random.nextInt()%5;
 		switch(color)
 		{
 		case 0:
-			secretCode.add(orange);
+			secretCode.add(this.orange);
 			break;
 		case 1:
-			secretCode.add(blue);
+			secretCode.add(this.blue);
 			break;
 		case 2:
-			secretCode.add(purple);
+			secretCode.add(this.purple);
 			break;
 		case 3:
-			secretCode.add(red);
+			secretCode.add(this.red);
 			break;
 		case 4:
-			secretCode.add(yellow);
+			secretCode.add(this.yellow);
 			break;
 		case 5:
-			secretCode.add(green);
+			secretCode.add(this.green);
 			break;
 		}
 		
@@ -71,7 +72,7 @@ public void generateHistory()
 }
 public String getMove()
 {
-String message = "you have " + Integer.toString(attemptsRemain) + " \n";
+String message = "you have " + Integer.toString(attemptsRemain - 1) + " \n";
 JFrame frame = new JFrame();	
 String ret = "";
 boolean valid = false;
@@ -88,6 +89,12 @@ valid = true;
 return ret;
 }
 
+public int getAttemptsRemain() {
+	return attemptsRemain;
+}
+public void setAttemptsRemain(int attemptsRemain) {
+	this.attemptsRemain = attemptsRemain;
+}
 private boolean confirmMove(String move) {
 	move = move.toUpperCase();
 	if(move.equals("HISTORY"))
@@ -152,43 +159,36 @@ public boolean moveChecker(String move)
 	return true; //all of the characters matched, so we were able to exit the for loop
 }
 
-public void pegsMove(String move)
+public String pegsMove(String move)
 {
-	int whitePegs = 0;
-	int blackPegs = 0;
-	
-	for(int i = 0; i < move.length(); i ++)
+	int bPegs =0;
+	int wPegs =0;
+	ArrayList<String> s = new ArrayList<String>();
+	for(int i =0; i < this.secretCode.size();i++)
 	{
-		String letter = move.substring(i, i+1);
-		ArrayList<Character> secret = this.secretCode;
-		int same = 0;
-		int similar = 0;
-		for(int j = 0; j < secret.size(); j ++)
+		s.add(Character.toString(this.secretCode.get(i)));
+	}
+	for(int i =0; i < move.length(); i++)
+	{
+	int place = move.indexOf(s.get(i));	
+	if(place != -1)
+	{
+		s.set(i, null);
+		if(place == i)
+			bPegs++;
+		else
 		{
-			if(letter.equals(secret.get(j)) && i == j)
-			{
-				same = same+ 1; //they are in the same place 
-			}
-			else if(letter.equals(secret.get(j)))
-			{
-				similar = similar + 1;  //same color in the code, but wrong place
-			}
-			
+			wPegs++;			
 		}
-		if(similar > 0)
-		{
-			whitePegs = whitePegs + 1;
-		}
-		if(same > 0)
-		{
-			blackPegs = blackPegs + 1;
-		}
-	
+	}
+	}
+	String ret = Integer.toString(bPegs) + " " + Integer.toString(wPegs);
+	return ret;
 	}
 	
 	//totalPegs = whitePegs + blackPegs.
 	//output the pegs and the guess?
-	}
+	
 public boolean endGame(boolean win)
 {
 	boolean ret = false;

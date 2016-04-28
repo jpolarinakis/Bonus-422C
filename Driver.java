@@ -3,7 +3,7 @@ import javax.swing.JOptionPane;
 
 public class Driver {
 
-	void main(int[] args)
+	public static void main(String[] args)
 	{
 		Mastermind game = new Mastermind();
 		int moves =0;
@@ -17,8 +17,11 @@ public class Driver {
 		while(play)
 		{
 			game.generateBoard();
+			
+			
 			String move = game.getMove();
-			moves++;
+			moves ++;
+			
 			//call the move output function : checks how off they are from the input
 			boolean didWin = game.moveChecker(move); //check the current move to see if it matches the right answer
 			if(didWin)			
@@ -29,7 +32,12 @@ public class Driver {
 			
 			else //the game is not over so we need to generate the pegs
 			{
-				game.pegsMove(move);
+				//JOptionPane.showMessageDialog(null, "Your guess: " + move);
+				String pegs = game.pegsMove(move);
+				String[] pegBW = pegs.split("\\s+"); //split by space
+				JOptionPane.showMessageDialog(null, "Your guess: " + move + " Black Pegs: " + pegBW[0] + " White Pegs: " + pegBW[1]);
+				
+				
 			}
 		}
 	}
