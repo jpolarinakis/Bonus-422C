@@ -12,6 +12,7 @@ public class Mastermind {
 	 * History output:
 	 * "guess" + "peg output"
 	 * */
+private int numMoves;
 private Random random = new Random();
 private ArrayList<ArrayList<String>> history;
 private ArrayList<Character> secretCode;
@@ -216,9 +217,16 @@ public boolean letterExists(Character letter)
  * */
 public void generateBoard()
 {	
+
+	this.numMoves = 0;
 	this.secretCode = new ArrayList<Character>();
 	this.history = new ArrayList<ArrayList<String>>(); 
 	attemptsRemain = this.numGuesses;
+	for(int i =0; i < 12; i++)
+	{
+		ArrayList<String> toAdd = new ArrayList<String>();
+		history.add(toAdd);
+	}
 	/*for(int i =0; i < 4; i++)
 	{
 		int color = random.nextInt()%5;
@@ -399,18 +407,29 @@ public String pegsMove(String move)
 	int place = move.indexOf(s.get(i));	
 	if(place != -1)
 	{
-		s.set(i, this.empty);
-		if(place == i)
+		String test = s.get(place);
+		String test2 = s.get(i);
+		if(s.get(place).equals(s.get(i)))
+		{
 			bPegs++;
+			s.set(place, empty);
+			move = move.substring(0,place)+"X"+move.substring(place+1,move.length());
+		}
 		else
 		{
+			move = move.substring(0,place)+"X"+move.substring(place+1,move.length());
+			//s.set(place, this.empty);
 			wPegs++;			
 		}
 	}
 	}
+	String histAdd = bPegs + " black pegs and " + wPegs + " white pegs";
+	history.get(numMoves).add(histAdd);
+	numMoves++;
 	String ret = Integer.toString(bPegs) + " " + Integer.toString(wPegs);
 	return ret;
 	}
+
 public boolean endGame(boolean win)
 {
 	boolean ret = false;
